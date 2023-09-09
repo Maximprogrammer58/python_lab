@@ -28,7 +28,7 @@ def upload_csv(parser_data):
     with open('dataset.csv', 'w', encoding="utf-8", newline="") as file:
         writer = csv.writer(file)
         writer.writerows(parser_data)
-
+    
 
 upload_csv(parser(2008, 2023))
 
