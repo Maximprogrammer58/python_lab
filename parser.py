@@ -3,25 +3,24 @@ import csv
 import os
 import requests
 
-
+    
 def parser(year_from, year_to, step=1):
     parser_data = []
-    
     for year in range(year_from, year_to + 1, step):
         for month in range(1, 13):
             URL = f"https://www.gismeteo.ru/diary/4618/{year}/{month}/"
-            html_page = requests.get(URL, headers={"User-Agent": "Mozilla/5.0"})
+            html_page = requests.get(
+                URL, headers={"User-Agent": "Mozilla/5.0"})
             soup = BeautifulSoup(html_page.text, 'lxml')
-
             for day in soup.find_all('td', class_="first"):
                 try:
                     temp = day.find_next()
                     press = temp.find_next()
                     wind = press.find_next_sibling().find_next_sibling().find_next_sibling()
-                    parser_data.append([day.text + "." + str(month).zfill(2) + "." + str(year), temp.text + "°C", press.text + "мм.рт.ст.", wind.text])
+                    parser_data.append([day.text + "." + str(month).zfill(2) + "." + str(year),
+                                        temp.text + "°C", press.text + "мм.рт.ст.", wind.text])
                 except:
-                    print("Parsing error")
-
+                    print("Parsing error for " + day.text + "." + str(month).zfill(2) + "." + str(year))
     return parser_data
 
 
