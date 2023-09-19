@@ -3,8 +3,16 @@ import csv
 import os
 import requests
 
+
+def correct_wind_info(wind: str) -> tuple:
+    '''Separation of wind direction and speed data by variables'''
+    durection, speed = wind.split()
+    digit_speed = int(list(filter(lambda el: el.isdigit(), speed))[0])
+    return durection, digit_speed
+
     
-def parser(year_from, year_to, step=1):
+def parser(year_from: int, year_to: int, step=1) -> list:
+    '''Parsing data from the site by url and further adding data to the list'''
     parser_data = []
     for year in range(year_from, year_to + 1, step):
         for month in range(1, 13):
@@ -17,19 +25,20 @@ def parser(year_from, year_to, step=1):
                     temp = day.find_next()
                     press = temp.find_next()
                     wind = press.find_next_sibling().find_next_sibling().find_next_sibling()
+                    durection, digit_speed = correct_wind_info(wind.text)
                     parser_data.append([day.text + "." + str(month).zfill(2) + "." + str(year),
-                                        temp.text + "°C", press.text + "мм.рт.ст.", wind.text])
+                                        temp.text, press.text, durection, digit_speed])
                 except:
-                    print("Parsing error for " + day.text + "." + str(month).zfill(2) + "." + str(year))
+                    pass
     return parser_data
 
 
-def upload_csv(parser_data):
+def upload_csv(parser_data: list) -> None:
+    '''Saving data after parsing to a csv file'''
     with open('dataset.csv', 'w', encoding="utf-8", newline="") as file:
         writer = csv.writer(file)
         writer.writerows(parser_data)
     
-
-upload_csv(parser(2008, 2023))
-
-print("Загрузка завершена")
+    
+if __name__ == "__main__":
+    upload_csv(parser(2008, 2023))
