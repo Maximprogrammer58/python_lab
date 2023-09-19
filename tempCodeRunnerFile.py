@@ -1,1 +1,0 @@
-https://www.gismeteo.ru/diary/4618/{year}/{month}/
