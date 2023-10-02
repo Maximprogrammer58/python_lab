@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import csv
-import os
 import requests
+import os
 
 
 def correct_wind_info(wind: str) -> tuple:
@@ -26,8 +26,8 @@ def parser(year_from: int, year_to: int, step=1) -> list:
                     press = temp.find_next()
                     wind = press.find_next_sibling().find_next_sibling().find_next_sibling()
                     durection, digit_speed = correct_wind_info(wind.text)
-                    parser_data.append([day.text + "." + str(month).zfill(2) + "." + str(year),
-                                        temp.text, press.text, durection, digit_speed])
+                    parser_data.append([str(year) + "-" + str(month).zfill(2) + "-" + day.text.zfill(2),
+                                        int(temp.text), press.text, durection, digit_speed])
                 except:
                     pass
     return parser_data
@@ -38,7 +38,3 @@ def upload_csv(parser_data: list) -> None:
     with open('dataset.csv', 'w', encoding="utf-8", newline="") as file:
         writer = csv.writer(file)
         writer.writerows(parser_data)
-    
-    
-if __name__ == "__main__":
-    upload_csv(parser(2008, 2023))
