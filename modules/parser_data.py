@@ -3,6 +3,8 @@ import csv
 import requests
 import os
 
+import modules.add_functions as ef
+
 
 def correct_wind_info(wind: str) -> tuple:
     '''Separation of wind direction and speed data by variables'''
@@ -10,7 +12,7 @@ def correct_wind_info(wind: str) -> tuple:
     digit_speed = int(list(filter(lambda el: el.isdigit(), speed))[0])
     return durection, digit_speed
 
-    
+
 def parser(year_from: int, year_to: int, step=1) -> list:
     '''Parsing data from the site by url and further adding data to the list'''
     parser_data = []
@@ -33,11 +35,9 @@ def parser(year_from: int, year_to: int, step=1) -> list:
     return parser_data
 
 
+@ef.change_work_dir(name=r"\datasets")
 def upload_csv(parser_data: list) -> None:
     '''Saving data after parsing to a csv file'''
-    path = os.getcwd()
-    os.chdir(f"{path}\datasets")
     with open('dataset.csv', 'w', encoding="utf-8", newline="") as file:
         writer = csv.writer(file)
         writer.writerows(parser_data)
-    os.chdir(path)
