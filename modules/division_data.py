@@ -10,7 +10,7 @@ def division_date_and_data() -> None:
     data = ef.read_data(r"D:\Python_lab\python_lab\datasets\dataset.csv")
     with open('X.csv', 'w', encoding="utf-8", newline="") as file:
         writer = csv.writer(file)
-        writer.writerows([map(int, i[0].split("-")) for i in data])
+        writer.writerows([i[0].split("-") for i in data])
     with open('Y.csv', 'w', encoding="utf-8", newline="") as file:
         writer = csv.writer(file)
         writer.writerows([i[1:] for i in data])
@@ -63,9 +63,3 @@ def division_by_week() -> None:
     with open(f"{a}_{b}.csv", 'w', encoding="utf-8", newline="") as file:
         writer = csv.writer(file)
         writer.writerows(data_week)
-    
-
-def get_data(date: datetime) -> list | None:
-    for i in ef.read_data("datasets/dataset.csv"):
-        if i[0] == str(date):
-            return i[1:]

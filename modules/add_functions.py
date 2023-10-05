@@ -10,6 +10,12 @@ def read_data(path: str) -> list:
     return data
 
 
+def growth(next_day: int, today: int) -> int:
+    if next_day < today:
+        return (next_day + 31) - today
+    return next_day - today
+
+
 def change_work_dir(name: str):
     def decorator(func):
         def wrapper():
@@ -19,9 +25,3 @@ def change_work_dir(name: str):
             os.chdir(path)
         return wrapper
     return decorator
-
-
-def growth(next_day: int, today: int) -> int:
-    if next_day < today:
-        return (next_day + 31) - today
-    return next_day - today
