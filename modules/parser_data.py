@@ -7,14 +7,28 @@ import modules.add_functions as ef
 
 
 def correct_wind_info(wind: str) -> tuple:
-    '''Separation of wind direction and speed data by variables'''
+    """Separation of wind direction and speed data by variables
+    Args:
+      wind: wind information
+    Returns:
+      A tuple with wind speed and direction
+    """
     durection, speed = wind.split()
     digit_speed = int(list(filter(lambda el: el.isdigit(), speed))[0])
     return durection, digit_speed
 
 
 def parser(year_from: int, year_to: int, step=1) -> list:
-    '''Parsing data from the site by url and further adding data to the list'''
+    """Parsing data from the site by url and further adding data to the list
+    Args:
+      year_from: year of the beginning of parsing
+      year_to: year of parsing completion
+      step: step for years
+    Returns:
+      List of days received as a result of parsing
+    Raises:
+      Exception: information for the current day is not available on the website
+    """
     parser_data = []
     for year in range(year_from, year_to + 1, step):
         for month in range(1, 13):
@@ -37,7 +51,10 @@ def parser(year_from: int, year_to: int, step=1) -> list:
 
 @ef.change_work_dir(name=r"\datasets")
 def upload_csv(parser_data: list) -> None:
-    '''Saving data after parsing to a csv file'''
+    """Saving data after parsing to a csv file
+    Args:
+      parser_data: list of days received as a result of parsing
+    """
     with open('dataset.csv', 'w', encoding="utf-8", newline="") as file:
         writer = csv.writer(file)
         writer.writerows(parser_data)

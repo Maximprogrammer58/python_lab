@@ -2,16 +2,21 @@ import modules.add_functions as ef
 
 
 class DataIterator:
+   """Iterator for data from dataset
+    Attribute:
+      data: weather data by day
+      index: number of day
+    """
    def __init__(self):
-      self.data = ef.read_data(r"D:\Python_lab\python_lab\datasets\dataset.csv")
-      self.index = -1
+      self.__data = ef.read_data(r"D:\Python_lab\python_lab\datasets\dataset.csv")
+      self.__index = -1
           
    def __iter__(self):
       return self
    
    def __next__(self) -> tuple:
-      if self.index < len(self.data) - 1:
-         self.index += 1
-         return tuple(self.data[self.index])
+      if self.__index < len(self.__data) - 1:
+         self.__index += 1
+         return tuple(self.__data[self.__index])
       else:
          raise StopIteration

@@ -7,6 +7,7 @@ import modules.add_functions as ef
 
 @ef.change_work_dir(name=r"\datasets\date_and_data")
 def division_date_and_data() -> None:
+    """Splitting the main file into two files by date and by data"""
     data = ef.read_data(r"D:\Python_lab\python_lab\datasets\dataset.csv")
     with open('X.csv', 'w', encoding="utf-8", newline="") as file:
         writer = csv.writer(file)
@@ -18,6 +19,7 @@ def division_date_and_data() -> None:
 
 @ef.change_work_dir(name=r"\datasets\data_by_year")
 def division_by_year() -> None:
+    """Splitting the main file into files by year"""
     data = ef.read_data(r"D:\Python_lab\python_lab\datasets\dataset.csv")
     year_list = []
     for day in data:
@@ -39,6 +41,7 @@ def division_by_year() -> None:
 
 @ef.change_work_dir(name=r"\datasets\data_by_week")
 def division_by_week() -> None:
+    """Splitting the main file into files by week"""
     data = ef.read_data(r"D:\Python_lab\python_lab\datasets\dataset.csv")
     day_of_week = 6
     data_week = [data[0]]
