@@ -5,9 +5,13 @@ import os
 import modules.add_functions as ef
 
 
-@ef.change_work_dir(name=r"\datasets\date_and_data")
-def division_date_and_data() -> None:
-    """Splitting the main file into two files by date and by data"""
+def division_date_and_data(directory_path: str) -> None:
+    """Splitting the main file into two files by date and by data
+    Args:
+      directory_path: the path to the working directory for the shift
+    """
+    path = os.getcwd()
+    os.chdir(directory_path)
     data = ef.read_data(r"D:\Python_lab\python_lab\datasets\dataset.csv")
     with open('X.csv', 'w', encoding="utf-8", newline="") as file:
         writer = csv.writer(file)
@@ -15,12 +19,17 @@ def division_date_and_data() -> None:
     with open('Y.csv', 'w', encoding="utf-8", newline="") as file:
         writer = csv.writer(file)
         writer.writerows([i[1:] for i in data])
+    os.chdir(path)
 
 
-@ef.change_work_dir(name=r"\datasets\data_by_year")
-def division_by_year() -> None:
-    """Splitting the main file into files by year"""
+def division_by_year(directory_path: str) -> None:
+    """Splitting the main file into files by year
+     Args:
+      directory_path: the path to the working directory for the shift
+    """
     data = ef.read_data(r"D:\Python_lab\python_lab\datasets\dataset.csv")
+    path = os.getcwd()
+    os.chdir(directory_path)
     year_list = []
     for day in data:
         year_list.append(int(day[0].split("-")[0]))
@@ -37,13 +46,19 @@ def division_by_year() -> None:
         with open(f"{a}_{b}.csv", 'w', encoding="utf-8", newline="") as file:
             writer = csv.writer(file)
             writer.writerows(data_year)
+    os.chdir(path)
 
 
-@ef.change_work_dir(name=r"\datasets\data_by_week")
-def division_by_week() -> None:
-    """Splitting the main file into files by week"""
+def division_by_week(directory_path: str, start_day: int) -> None:
+    """Splitting the main file into files by week
+     Args:
+      directory_path: the path to the working directory for the shift
+      start_day: the sequence number for the week of the first day in the file
+    """
     data = ef.read_data(r"D:\Python_lab\python_lab\datasets\dataset.csv")
-    day_of_week = 6
+    path = os.getcwd()
+    os.chdir(directory_path)
+    day_of_week = start_day
     data_week = [data[0]]
     for i in range(1, len(data) - 1):
         if day_of_week >= 7:
@@ -55,14 +70,8 @@ def division_by_week() -> None:
                 writer = csv.writer(file)
                 writer.writerows(data_week)
             data_week.clear()
-            day_of_week += ef.growth(int(data[i + 1][0].split("-")[2]),
-                                  int(data[i][0].split("-")[2]))
+            day_of_week += ef.growth(data[i][0], data[i+1][0])
             continue
         data_week.append(data[i])
-        day_of_week += ef.growth(int(data[i + 1][0].split("-")[2]),
-                              int(data[i][0].split("-")[2]))
-    a = "".join(data_week[0][0].split("-"))
-    b = "".join(data_week[len(data_week) - 1][0].split("-"))
-    with open(f"{a}_{b}.csv", 'w', encoding="utf-8", newline="") as file:
-        writer = csv.writer(file)
-        writer.writerows(data_week)
+        day_of_week += ef.growth(data[i][0], data[i+1][0])
+    os.chdir(path)

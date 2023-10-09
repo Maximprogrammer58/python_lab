@@ -49,12 +49,14 @@ def parser(year_from: int, year_to: int, step=1) -> list:
     return parser_data
 
 
-@ef.change_work_dir(name=r"\datasets")
 def upload_csv(parser_data: list) -> None:
     """Saving data after parsing to a csv file
     Args:
       parser_data: list of days received as a result of parsing
     """
+    path = os.getcwd()
+    os.chdir(r"D:\Python_lab\python_lab\datasets")
     with open('dataset.csv', 'w', encoding="utf-8", newline="") as file:
         writer = csv.writer(file)
         writer.writerows(parser_data)
+    os.chdir(path)
