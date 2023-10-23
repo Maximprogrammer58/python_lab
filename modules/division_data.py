@@ -5,14 +5,14 @@ import os
 import modules.add_functions as ef
 
 
-def division_date_and_data(directory_path: str) -> None:
+def division_date_and_data(directory_path: str, file_path: str) -> None:
     """Splitting the main file into two files by date and by data
     Args:
       directory_path: the path to the working directory for the shift
     """
     path = os.getcwd()
     os.chdir(directory_path)
-    data = ef.read_data(r"D:\Python_lab\python_lab\datasets\dataset.csv")
+    data = ef.read_data(file_path)
     with open('X.csv', 'w', encoding="utf-8", newline="") as file:
         writer = csv.writer(file)
         writer.writerows([i[0].split("-") for i in data])
@@ -22,12 +22,12 @@ def division_date_and_data(directory_path: str) -> None:
     os.chdir(path)
 
 
-def division_by_year(directory_path: str) -> None:
+def division_by_year(directory_path: str, file_path: str) -> None:
     """Splitting the main file into files by year
      Args:
       directory_path: the path to the working directory for the shift
     """
-    data = ef.read_data(r"D:\Python_lab\python_lab\datasets\dataset.csv")
+    data = ef.read_data(file_path)
     path = os.getcwd()
     os.chdir(directory_path)
     year_list = []
@@ -49,13 +49,13 @@ def division_by_year(directory_path: str) -> None:
     os.chdir(path)
 
 
-def division_by_week(directory_path: str, start_day: int) -> None:
+def division_by_week(directory_path: str, start_day: int, file_path: str) -> None:
     """Splitting the main file into files by week
      Args:
       directory_path: the path to the working directory for the shift
       start_day: the sequence number for the week of the first day in the file
     """
-    data = ef.read_data(r"D:\Python_lab\python_lab\datasets\dataset.csv")
+    data = ef.read_data(file_path)
     path = os.getcwd()
     os.chdir(directory_path)
     day_of_week = start_day

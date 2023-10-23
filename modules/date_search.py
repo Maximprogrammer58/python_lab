@@ -4,16 +4,31 @@ import os
 import modules.add_functions as ef
 
 
-def search(date: datetime) -> list | None:
+def search(path: str, date: datetime) -> list | None:
     """Getting information about the day by date from the main dataset
     Args:
       date: date of the required day
+      path: path os dataset
     Returns:
       information about the day or, if there is no such for, the function does not return none
     """
-    for day in ef.read_data("datasets/dataset.csv"):
+    for day in ef.read_data(path):
         if day[0] == str(date):
             return day[1:]
+  
+  
+def find(path: str, date: datetime) -> list | None:
+    """Search for information by date from the specified file
+    Args:
+      date: date of the required day
+      path: path to the dataset
+    Returns:
+      List with data for the desired day
+    """
+    data = ef.read_data(path)
+    for i in range(len(data)):
+        if data[i][0] == str(date):
+            return i
 
 
 def search_by_year(date: datetime) -> list | None:

@@ -1,18 +1,25 @@
 import modules.add_functions as ef
 
 
-class DataIterator:
+class DataIterator():
     """Iterator for data from dataset
      Attribute:
        data: weather data by day
        index: number of day
      """
 
-    def __init__(self):
-        self.__data = ef.read_data(
-            r"D:\Python_lab\python_lab\datasets\dataset.csv")
+    def __init__(self, path: str):
+        self.__data = ef.read_data(path)
         self.__index = -1
-
+        
+    @property
+    def index(self):
+        return self.__index
+    
+    @index.setter
+    def index(self, value):
+        self.__index = value
+        
     def __iter__(self):
         return self
 
